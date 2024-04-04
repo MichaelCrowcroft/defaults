@@ -7,6 +7,7 @@ use function Pest\Laravel\{ actingAs, post };
 beforeEach(function () {
     $this->validData = [
         'name' => 'Product Name',
+        'summary' => 'This is the product summary',
         'description' => 'This is a product',
     ];
 });
@@ -33,7 +34,7 @@ it('redirects to the product show page', function () {
         ->assertRedirect(Product::latest('id')->first()->showRoute());
 });
 
-it('requires a valid data', function (array $badData, array|string $errors) {
+it('requires valid data', function (array $badData, array|string $errors) {
     $user = User::factory()->create();
 
     actingAs($user)
@@ -55,4 +56,10 @@ it('requires a valid data', function (array $badData, array|string $errors) {
     [['description' => true], 'description'],
     [['description' => str_repeat('a', 12001)], 'description'],
     [['description' => str_repeat('a', 9)], 'description'],
+    [['summary' => null], 'summary'],
+    [['summary' => 1], 'summary'],
+    [['summary' => 1.5], 'summary'],
+    [['summary' => true], 'summary'],
+    [['summary' => str_repeat('a', 481)], 'summary'],
+    [['summary' => str_repeat('a', 9)], 'summary'],
 ]);

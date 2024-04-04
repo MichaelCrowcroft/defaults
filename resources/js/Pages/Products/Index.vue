@@ -15,7 +15,11 @@ const props = defineProps({
             <ul class="divide-y">
                 <li v-for="product in products.data" :key="product.id">
                     <Link :href="product.routes.show" class="block group px-2 py-4">
-                        <span class="font-bold text-lg group-hover:text-indigo-500">{{ product.name }}</span>
+                        <div class="flex gap-x-3 items-center">
+                            <img :src="product.logo_path" class="w-8 h-8" />
+                            <h2 class="font-bold text-lg group-hover:text-indigo-500">{{ product.name }}</h2>
+                        </div>
+                        <p class="mt-3">{{ product.summary }}</p>
                     </Link>
                 </li>
             </ul>

@@ -14,6 +14,7 @@ class ProductFactory extends Factory
         return [
             'name' => $name,
             'description' => Collection::times(4, fn () => fake()->realText(1250))->join(PHP_EOL.PHP_EOL),
+            'summary' => fake()->sentence(),
             'logo_path' => fake()->imageUrl(1024, 1024),
         ];
     }
