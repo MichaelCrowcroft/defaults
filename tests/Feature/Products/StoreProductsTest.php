@@ -2,6 +2,9 @@
 
 use App\Models\Product;
 use App\Models\User;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
+
 use function Pest\Laravel\{ actingAs, post };
 
 beforeEach(function () {
@@ -9,6 +12,7 @@ beforeEach(function () {
         'name' => 'Product Name',
         'summary' => 'This is the product summary',
         'description' => 'This is a product',
+        'logo' => UploadedFile::fake()->image('logo.jpg', 1024, 1024),
     ];
 });
 
@@ -21,17 +25,30 @@ it('can store a product', function () {
     $user = User::factory()->create();
 
     actingAs($user)
-        ->post(route('products.store'), $this->validData);
+        ->post(route('products.store'), [
+            ...$this->validData
+        ]);
 
-    $this->assertDatabaseHas(Product::class, $this->validData);
+    Storage::disk()->assertExists('logos/' . $this->validData['logo']->hashName());
+    $this->assertDatabaseHas(Product::class, [
+        'name' => $this->validData['name'],
+        'summary' => $this->validData['summary'],
+        'description' => $this->validData['description'],
+        'logo_path' => 'logos/' . $this->validData['logo']->hashName(),
+    ]);
+
+    Storage::delete('logos/' . $this->validData['logo']->hashName());
 });
 
 it('redirects to the product show page', function () {
+    $this->withoutExceptionHandling();
     $user = User::factory()->create();
 
     actingAs($user)
         ->post(route('products.store'), $this->validData)
         ->assertRedirect(Product::latest('id')->first()->showRoute());
+
+    Storage::delete('logos/' . $this->validData['logo']->hashName());
 });
 
 it('requires valid data', function (array $badData, array|string $errors) {
@@ -62,4 +79,7 @@ it('requires valid data', function (array $badData, array|string $errors) {
     [['summary' => true], 'summary'],
     [['summary' => str_repeat('a', 481)], 'summary'],
     [['summary' => str_repeat('a', 9)], 'summary'],
+    [['logo' => UploadedFile::fake()->image('logo.jpg', 1024, 1024)->size(2048)], 'logo'],
+    [['logo' => UploadedFile::fake()->image('logo.jpg', 800, 1024)], 'logo'],
+    [['logo' => UploadedFile::fake()->create('logo.pdf')], 'logo'],
 ]);

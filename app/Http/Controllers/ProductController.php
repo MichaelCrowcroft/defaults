@@ -30,13 +30,14 @@ class ProductController extends Controller
         return Inertia::render('Products/Create');
     }
 
-    public function store(Request $request)
+    public function store(StoreProductRequest $request)
     {
-        $data = $request->validate([
-            'name' => ['required', 'string', 'min:3', 'max:120'],
-            'summary' => ['required', 'string', 'min:10', 'max:480'],
-            'description' => ['required', 'string', 'min:10', 'max:12000'],
-        ]);
+        $data = $request->safe()->except('logo');
+
+        if($request->file('logo')) {
+            $logo_path = $request->file('logo')->storePublicly('logos');
+            $data['logo_path'] = $logo_path;
+        }
 
         $product = Product::create($data);
 
