@@ -12,13 +12,12 @@ use Illuminate\Support\Facades\Redirect;
 
 class ReviewController extends Controller
 {
-    public function store(Request $request, Product $product)
+    public function store(StoreReviewRequest $request, Product $product)
     {
-        $data = $request->validate(['body' => ['required', 'string', 'max:2500']]);
+        $data = $request->validated();
 
-        Review::create([
+        $product->reviews()->create([
             ...$data,
-            'product_id' => $product->id,
             'user_id' => $request->user()->id,
         ]);
 
@@ -26,11 +25,9 @@ class ReviewController extends Controller
             ->banner('Review Added');
     }
 
-    public function update(Request $request, Review $review)
+    public function update(UpdateReviewRequest $request, Review $review)
     {
-        Gate::authorize('update', $review);
-
-        $data = $request->validate(['body' => ['required', 'string', 'max:2500']]);
+        $data = $request->validated();
 
         $review->update($data);
 
@@ -46,6 +43,5 @@ class ReviewController extends Controller
 
         return Redirect::to($review->product->showRoute(['page' => $request->query('page')]))
             ->bannerDanger('Review Deleted');
-
     }
 }

@@ -15,6 +15,7 @@ class ReviewFactory extends Factory
             'user_id' => User::factory(),
             'product_id' => Product::factory(),
             'body' => fake()->realText(250),
+            'stars' => fake()->numberBetween(1, 5)
         ];
     }
 }

@@ -11,6 +11,7 @@ import InputError from "@/Components/InputError.vue";
 import AppLayout from '@/Layouts/AppLayout.vue';
 import { useConfirm } from '@/Utilities/Composables/useConfirm.js';
 import { ref, computed } from 'vue';
+import TextInput from '@/Components/TextInput.vue';
 
 const props = defineProps({
     product: Object,
@@ -19,6 +20,7 @@ const props = defineProps({
 
 const reviewForm = useForm({
     body: '',
+    stars: null,
 });
 
 const { confirmation } = useConfirm();
@@ -86,6 +88,12 @@ const deleteReview = async (reviewId) => {
                 <h2 class="text-xl font-semibold">Reviews</h2>
 
                 <form v-if="$page.props.auth.user" @submit.prevent="() => reviewIdBeingEdited ? updatedReview() : addReview()" class="mt-4">
+                    <div>
+                        <InputLabel for="stars" class="sr-only">Stars</InputLabel>
+                        <TextInput v-model="reviewForm.stars"></TextInput>
+                        <InputError :message="reviewForm.errors.stars" class="mt-1" />
+                    </div>
+
                     <div>
                         <InputLabel for="body" class="sr-only">Review</InputLabel>
                         <MarkdownEditor ref="reviewEditorRef" v-model="reviewForm.body"></MarkdownEditor>
