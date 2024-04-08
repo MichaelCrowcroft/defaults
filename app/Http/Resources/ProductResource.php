@@ -16,6 +16,7 @@ class ProductResource extends JsonResource
             'summary' => $this->summary,
             'description' => $this->description,
             'logo_path' => $this->logo_path,
+            'rating' => $this->rating(),
             'updated_at' => $this->updated_at,
             'created_at' => $this->created_at,
             'routes' => [

@@ -1,17 +1,18 @@
 <script setup>
+import AppLayout from '@/Layouts/AppLayout.vue';
 import Pagination from '@/Components/Pagination.vue';
 import Container from '@/Components/Container.vue';
 import Review from '@/Components/Review.vue';
 import InputLabel from "@/Components/InputLabel.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
-import { router, useForm } from "@inertiajs/vue3";
 import MarkdownEditor from '@/Components/MarkdownEditor.vue';
 import InputError from "@/Components/InputError.vue";
-import AppLayout from '@/Layouts/AppLayout.vue';
 import { useConfirm } from '@/Utilities/Composables/useConfirm.js';
+import { router, useForm } from "@inertiajs/vue3";
 import { ref, computed } from 'vue';
-import TextInput from '@/Components/TextInput.vue';
+import StarInput from '@/Components/StarInput.vue';
+import Stars from '@/Components/Stars.vue';
 
 const props = defineProps({
     product: Object,
@@ -33,6 +34,7 @@ const reviewBeingEdited = computed(() => props.reviews.data.find(
 const editReview = (reviewId) => {
     reviewIdBeingEdited.value = reviewId;
     reviewForm.body = reviewBeingEdited.value?.body;
+    reviewForm.stars = reviewBeingEdited.value?.stars;
     reviewEditorRef.value?.focus();
 };
 
@@ -78,7 +80,13 @@ const deleteReview = async (reviewId) => {
 <template>
     <AppLayout>
         <Container>
-            <h1 class="text-2xl font-bold">{{ product.name }}</h1>
+            <div class="flex justify-between items-center">
+                <h1 class="text-2xl font-bold">{{ product.name }}</h1>
+                <div class="flex gap-x-3">
+                    <Stars :stars="product.rating" />
+                    <p>{{ product.rating }}</p>
+                </div>
+            </div>
 
             <article class="mt-6">
                 <pre class="whitespace-pre-wrap font-sans">{{ product.description }}</pre>
@@ -90,11 +98,11 @@ const deleteReview = async (reviewId) => {
                 <form v-if="$page.props.auth.user" @submit.prevent="() => reviewIdBeingEdited ? updatedReview() : addReview()" class="mt-4">
                     <div>
                         <InputLabel for="stars" class="sr-only">Stars</InputLabel>
-                        <TextInput v-model="reviewForm.stars"></TextInput>
+                        <StarInput v-model="reviewForm.stars" />
                         <InputError :message="reviewForm.errors.stars" class="mt-1" />
                     </div>
 
-                    <div>
+                    <div class="mt-3">
                         <InputLabel for="body" class="sr-only">Review</InputLabel>
                         <MarkdownEditor ref="reviewEditorRef" v-model="reviewForm.body"></MarkdownEditor>
                         <InputError :message="reviewForm.errors.body" class="mt-1" />

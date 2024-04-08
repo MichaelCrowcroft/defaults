@@ -19,6 +19,13 @@ class Product extends Model
         return $this->hasMany(Review::class);
     }
 
+    public function rating(): float
+    {
+        $this->load('reviews');
+
+        return round($this->reviews->average('stars'), 1);
+    }
+
     public function name(): Attribute
     {
         return Attribute::set(fn ($value) => Str::title($value));

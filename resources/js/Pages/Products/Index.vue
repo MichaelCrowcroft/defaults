@@ -3,6 +3,7 @@ import Pagination from '@/Components/Pagination.vue';
 import Container from '@/Components/Container.vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import { Link } from '@inertiajs/vue3';
+import Stars from '@/Components/Stars.vue';
 
 const props = defineProps({
     products: Object,
@@ -18,6 +19,7 @@ const props = defineProps({
                         <div class="flex gap-x-3 items-center">
                             <img :src="product.logo_path" class="w-8 h-8" />
                             <h2 class="font-bold text-lg group-hover:text-indigo-500">{{ product.name }}</h2>
+                            <Stars :stars="product.rating" />
                         </div>
                         <p class="mt-3">{{ product.summary }}</p>
                     </Link>
