@@ -29,7 +29,7 @@ const fractionToShow = Math.round(remainder/10*12*10);
                     <StarIcon
                         class="h-6 w-6"
                         :class="{
-                            'fill-yellow-400': stars >= count || stars - remainder + 1  == count,
+                            'fill-yellow-400': stars - remainder + 1  >= count,
                             'hidden': stars + 1  <= count
                         }"
                     />

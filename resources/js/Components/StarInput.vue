@@ -10,7 +10,6 @@ const model = defineModel({
 const rating = ref(0);
 
 watch(() => model.value, (value) => rating.value = value);
-// TODO make functional with screen readers and keyboards
 </script>
 
 <template>
