@@ -14,6 +14,7 @@ class ReviewResource extends JsonResource
             'user' => $this->whenLoaded('user', fn () => UserResource::make($this->user)),
             'product' => $this->whenLoaded('product', fn () => ProductResource::make($this->product)),
             'body' => $this->body,
+            'html' => $this->html,
             'stars' => $this->stars,
             'updated_at' => $this->updated_at,
             'created_at' => $this->created_at,

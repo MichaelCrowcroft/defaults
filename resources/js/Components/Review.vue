@@ -16,7 +16,7 @@ const emit = defineEmits(['edit', 'delete']);
         </div>
         <div class="flex-1">
             <Stars :stars="review.stars" />
-            <p class="mt-1 break-all">{{ review.body }}</p>
+            <div class="mt-2 prose prose-sm max-w-none" v-html="review.html"></div>
             <span class="first-letter:uppercase block pt-1 text-xs text-gray-600">By {{ review.user.handle }} {{ relativeDate(review.created_at) }} ago</span>
             <div class="mt-2 flex justify-end space-x-3 empty:hidden">
                 <form v-if="review.can?.update" @submit.prevent="$emit('edit', review.id)">

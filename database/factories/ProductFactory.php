@@ -9,11 +9,9 @@ class ProductFactory extends Factory
 {
     public function definition(): array
     {
-        $name = fake()->company();
-
         return [
-            'name' => $name,
-            'description' => Collection::times(4, fn () => fake()->realText(1250))->join(PHP_EOL.PHP_EOL),
+            'name' => fake()->company(),
+            'body' => Collection::times(4, fn () => fake()->realText(1250))->join(PHP_EOL.PHP_EOL),
             'summary' => fake()->sentence(),
             'logo_path' => fake()->imageUrl(1024, 1024),
         ];

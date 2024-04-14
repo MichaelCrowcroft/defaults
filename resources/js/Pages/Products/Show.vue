@@ -88,9 +88,7 @@ const deleteReview = async (reviewId) => {
                 </div>
             </div>
 
-            <article class="mt-6">
-                <pre class="whitespace-pre-wrap font-sans">{{ product.description }}</pre>
-            </article>
+            <article class="mt-6 prose prose-sm max-w-none" v-html="product.html"></article>
 
             <div class="mt-12">
                 <h2 class="text-xl font-semibold">Reviews</h2>
@@ -104,7 +102,7 @@ const deleteReview = async (reviewId) => {
 
                     <div class="mt-3">
                         <InputLabel for="body" class="sr-only">Review</InputLabel>
-                        <MarkdownEditor ref="reviewEditorRef" v-model="reviewForm.body"></MarkdownEditor>
+                        <MarkdownEditor ref="reviewEditorRef" v-model="reviewForm.body" editorClass="min-h-[180px]" placeholder="Leave a review..." />
                         <InputError :message="reviewForm.errors.body" class="mt-1" />
                     </div>
 

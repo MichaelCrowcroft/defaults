@@ -26,3 +26,11 @@ it('can generate additional query paramaters on the show route', function () {
         'page' => 2,
     ]));
 });
+
+it('generates html from the body', function () {
+    $product = Product::factory()->make(['body' => '## Hello World']);
+
+    $product->save();
+
+    expect($product->html)->toEqual(Str::markdown($product->body));
+});

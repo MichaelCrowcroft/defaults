@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\GuideController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReviewController;
@@ -19,7 +20,6 @@ Route::get('/', function () {
 
 Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
 
-
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -27,6 +27,10 @@ Route::get('/dashboard', function () {
 Route::middleware('auth')->group(function () {
     Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
     Route::post('/products', [ProductController::class, 'store'])->name('products.store');
+
+    Route::post('/products/{product}/guides', [GuideController::class, 'store'])->name('products.guides.store');
+    // Route::delete('/guides/{guide}', [GuideController::class, 'delete'])->name('guides.delete');
+    Route::patch('/guides/{guide}', [GuideController::class, 'update'])->name('guides.update');
 
     Route::post('/products/{product}/reviews', [ReviewController::class, 'store'])->name('products.reviews.store');
     Route::delete('/reviews/{review}', [ReviewController::class, 'delete'])->name('reviews.delete');

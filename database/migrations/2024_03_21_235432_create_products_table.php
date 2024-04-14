@@ -17,7 +17,8 @@ return new class extends Migration
             $table->string('logo_path', 2048)->nullable();
             $table->string('name');
             $table->longText('summary');
-            $table->longText('description');
+            $table->longText('body');
+            $table->longText('html');
             $table->timestamps();
         });
     }

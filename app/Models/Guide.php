@@ -6,31 +6,25 @@ use App\Models\Concerns\ConvertsMarkdownToHtml;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 
-class Product extends Model
+class Guide extends Model
 {
     use HasFactory;
     use ConvertsMarkdownToHtml;
 
     protected $guarded = [];
 
-    public function reviews(): HasMany
+    public function user(): BelongsTo
     {
-        return $this->hasMany(Review::class);
+        return $this->belongsTo(User::class);
     }
 
-    public function guides(): HasMany
+    public function product(): BelongsTo
     {
-        return $this->hasMany(Guide::class);
-    }
-
-    public function rating(): float
-    {
-        $this->load('reviews');
-
-        return round($this->reviews->average('stars'), 1);
+        return $this->belongsTo(Product::class);
     }
 
     public function name(): Attribute
@@ -40,6 +34,6 @@ class Product extends Model
 
     public function showRoute(array $parameters = [])
     {
-        return route('products.show', [$this, Str::slug($this->name), ...$parameters]);
+        return route('guides.show', [$this, Str::slug($this->name), ...$parameters]);
     }
 }

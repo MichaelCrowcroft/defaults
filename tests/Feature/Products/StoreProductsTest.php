@@ -11,7 +11,7 @@ beforeEach(function () {
     $this->validData = [
         'name' => 'Product Name',
         'summary' => 'This is the product summary',
-        'description' => 'This is a product',
+        'body' => 'This is a product',
         'logo' => UploadedFile::fake()->image('logo.jpg', 1024, 1024),
     ];
 });
@@ -33,7 +33,7 @@ it('can store a product', function () {
     $this->assertDatabaseHas(Product::class, [
         'name' => $this->validData['name'],
         'summary' => $this->validData['summary'],
-        'description' => $this->validData['description'],
+        'body' => $this->validData['body'],
         'logo_path' => 'logos/' . $this->validData['logo']->hashName(),
     ]);
 
@@ -41,7 +41,6 @@ it('can store a product', function () {
 });
 
 it('redirects to the product show page', function () {
-    $this->withoutExceptionHandling();
     $user = User::factory()->create();
 
     actingAs($user)
@@ -67,12 +66,12 @@ it('requires valid data', function (array $badData, array|string $errors) {
     [['name' => true], 'name'],
     [['name' => str_repeat('a', 121)], 'name'],
     [['name' => str_repeat('a', 2)], 'name'],
-    [['description' => null], 'description'],
-    [['description' => 1], 'description'],
-    [['description' => 1.5], 'description'],
-    [['description' => true], 'description'],
-    [['description' => str_repeat('a', 12001)], 'description'],
-    [['description' => str_repeat('a', 9)], 'description'],
+    [['body' => null], 'body'],
+    [['body' => 1], 'body'],
+    [['body' => 1.5], 'body'],
+    [['body' => true], 'body'],
+    [['body' => str_repeat('a', 12001)], 'body'],
+    [['body' => str_repeat('a', 9)], 'body'],
     [['summary' => null], 'summary'],
     [['summary' => 1], 'summary'],
     [['summary' => 1.5], 'summary'],
