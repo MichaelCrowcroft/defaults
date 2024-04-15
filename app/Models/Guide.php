@@ -27,6 +27,11 @@ class Guide extends Model
         return $this->belongsTo(Product::class);
     }
 
+    public function episodes(): HasMany
+    {
+        return $this->hasMany(Episode::class);
+    }
+
     public function name(): Attribute
     {
         return Attribute::set(fn ($value) => Str::title($value));
