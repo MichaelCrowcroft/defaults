@@ -51,7 +51,7 @@ class ProductController extends Controller
 
         return Inertia::render('Products/Show', [
             'product' => fn () => ProductResource::make($product),
-            'reviews' => fn () => ReviewResource::collection($product->reviews()->with('user')->latest()->latest('id')->paginate(10)),
+            'reviews' => fn () => ReviewResource::collection($product->reviews()->with('user')->latest('id')->paginate(10)),
         ]);
     }
 

@@ -35,7 +35,7 @@ const props = defineProps({
 
                 <ul class="divide-y mt-4">
                     <li v-for="episode in episodes.data" :key="episode.id" class="px-2 py-4">
-                        {{ episode.body }}
+                        {{ episode.guide }}
                     </li>
                 </ul>
 

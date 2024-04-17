@@ -14,7 +14,7 @@ it('can show guides and episodes with a guide resource and episode resource', fu
 
     get($guide->showRoute())
         ->assertHasResource('guide', GuideResource::make($guide))
-        // ->assertHasPaginatedResource('episodes', EpisodeResource::collection($episodes->reverse()))
+        ->assertHasPaginatedResource('episodes', EpisodeResource::collection($episodes->reverse()))
         ->assertComponent('Guides/Show');
 });
 

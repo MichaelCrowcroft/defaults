@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreGuideRequest;
 use App\Http\Requests\UpdateGuideRequest;
+use App\Http\Resources\EpisodeResource;
 use App\Http\Resources\GuideResource;
-use App\Http\Resources\ReviewResource;
 use App\Models\Guide;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -47,7 +47,7 @@ class GuideController extends Controller
 
         return Inertia::render('Guides/Show', [
             'guide' => fn () => GuideResource::make($guide),
-            'episodes' => fn () => ReviewResource::collection($guide->episodes()->with('user')->latest()->latest('id')->paginate(10)),
+            'episodes' => fn () => EpisodeResource::collection($guide->episodes()->with(['user', 'guide'])->latest('id')->paginate(10)),
         ]);
     }
 
