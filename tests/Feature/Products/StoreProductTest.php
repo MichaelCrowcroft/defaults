@@ -4,7 +4,6 @@ use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
-
 use function Pest\Laravel\{ actingAs, post };
 
 beforeEach(function () {

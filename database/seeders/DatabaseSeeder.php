@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Episode;
+use App\Models\Guide;
 use App\Models\Product;
 use App\Models\Review;
 use App\Models\User;
@@ -15,6 +17,7 @@ class DatabaseSeeder extends Seeder
 
         Product::factory(50)
             ->has(Review::factory(15)->recycle($users))
+            ->has(Guide::factory(1)->recycle($users)->has(Episode::factory(3)->recycle($users)))
             ->recycle($users)
             ->create();
 

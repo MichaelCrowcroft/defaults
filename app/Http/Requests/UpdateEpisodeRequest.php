@@ -15,7 +15,7 @@ class UpdateEpisodeRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'min:3', 'max:120'],
-            'body' => ['required', 'string', 'min:10', 'max:12000'],
+            'body' => ['required', 'string', 'min:10', 'max:2500'],
             'video_url' => ['required', 'url'],
         ];
     }

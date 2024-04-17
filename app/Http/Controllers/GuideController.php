@@ -4,10 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreGuideRequest;
 use App\Http\Requests\UpdateGuideRequest;
+use App\Http\Resources\GuideResource;
+use App\Http\Resources\ReviewResource;
 use App\Models\Guide;
 use App\Models\Product;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Inertia\Inertia;
 
 class GuideController extends Controller
 {
@@ -34,9 +39,16 @@ class GuideController extends Controller
             ->banner('Guide Added');
     }
 
-    public function show(Guide $guide)
+    public function show(Request $request, Guide $guide)
     {
-        //
+        if(! Str::endsWith($guide->showRoute(), $request->path())) {
+            return redirect($guide->showRoute($request->query()), status: 301);
+        }
+
+        return Inertia::render('Guides/Show', [
+            'guide' => fn () => GuideResource::make($guide),
+            'episodes' => fn () => ReviewResource::collection($guide->episodes()->with('user')->latest()->latest('id')->paginate(10)),
+        ]);
     }
 
     public function update(UpdateGuideRequest $request, Guide $guide)

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EpisodeController;
 use App\Http\Controllers\GuideController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
@@ -31,6 +32,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/products/{product}/guides', [GuideController::class, 'store'])->name('products.guides.store');
     // Route::delete('/guides/{guide}', [GuideController::class, 'delete'])->name('guides.delete');
     Route::patch('/guides/{guide}', [GuideController::class, 'update'])->name('guides.update');
+    Route::post('/guides/{guide}/episode', [EpisodeController::class, 'store'])->name('guides.episodes.store');
+    Route::patch('/episodes/{episode}', [EpisodeController::class, 'update'])->name('episodes.update');
 
     Route::post('/products/{product}/reviews', [ReviewController::class, 'store'])->name('products.reviews.store');
     Route::delete('/reviews/{review}', [ReviewController::class, 'delete'])->name('reviews.delete');
@@ -43,5 +46,7 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 Route::get('/products/{product}/{slug}', [ProductController::class, 'show'])->name('products.show');
+Route::get('/guides/{guide}/{slug}', [GuideController::class, 'show'])->name('guides.show');
+
 
 require __DIR__.'/auth.php';
