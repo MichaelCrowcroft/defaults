@@ -2,14 +2,14 @@
 
 use App\Models\Episode;
 use App\Models\Guide;
-use Illuminate\Support\Str;
+use Spatie\LaravelMarkdown\MarkdownRenderer;
 
 it('generates html from the body', function () {
     $episode = Episode::factory()->make(['body' => '## Hello World']);
 
     $episode->save();
 
-    expect($episode->html)->toEqual(Str::markdown($episode->body));
+    expect($episode->html)->toEqual(app(MarkdownRenderer::class)->toHTML($episode->body));
 });
 
 it('episodes in a guide are created in order', function () {
