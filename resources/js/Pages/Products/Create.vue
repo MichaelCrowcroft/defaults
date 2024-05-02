@@ -11,7 +11,8 @@ import Container from '@/Components/Container.vue';
 const form = useForm({
     name: '',
     summary: '',
-    description: '',
+    body: '',
+    logo: '',
 });
 
 const createPost = () => form.post(route('products.store'));
@@ -45,9 +46,20 @@ const createPost = () => form.post(route('products.store'));
                 </div>
 
                 <div class="mt-3">
+                    <InputLabel for="logo">Logo</InputLabel>
+                    <input
+                        type="file"
+                        id="logo"
+                        class="w-full"
+                        @input="form.logo = $event.target.files[0]"
+                    ></input>
+                    <InputError :message="form.errors.logo" class="mt-1" />
+                </div>
+
+                <div class="mt-3">
                     <InputLabel for="description">Description</InputLabel>
-                    <MarkdownEditor v-model="form.description"></MarkdownEditor>
-                    <InputError :message="form.errors.description" class="mt-1" />
+                    <MarkdownEditor v-model="form.body"></MarkdownEditor>
+                    <InputError :message="form.errors.body" class="mt-1" />
                 </div>
 
                 <div class="mt-3">

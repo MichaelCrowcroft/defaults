@@ -3,7 +3,6 @@
 namespace App\Models\Concerns;
 
 use Illuminate\Support\Str;
-use Spatie\LaravelMarkdown\MarkdownRenderer;
 
 trait ConvertsMarkdownToHtml
 {
@@ -19,7 +18,11 @@ trait ConvertsMarkdownToHtml
         static::saving(function (self $model) {
             $markdownData = collect(self::getMarkdownToHtmlMap())
                 ->flip()
-                ->map(fn ($bodyColumn) => app(MarkdownRenderer::class)->toHTML($model->$bodyColumn)
+                ->map(fn ($bodyColumn) => Str::markdown($model->$bodyColumn, [
+                    'html_input' => 'strip',
+                    'allow_unsafe_links' => false,
+                    'max_nesting_level' => 5,
+                ])
             );
 
             return $model->fill($markdownData->all());

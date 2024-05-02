@@ -21,8 +21,8 @@ const editor = useEditor({
             heading: {
                 levels: [2, 3, 4],
             },
-            code: false,
-            codeBlock: false,
+            code: true,
+            codeBlock: true,
         }),
         Link,
         Markdown,

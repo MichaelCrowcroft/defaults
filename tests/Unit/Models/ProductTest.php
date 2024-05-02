@@ -2,7 +2,6 @@
 
 use App\Models\Product;
 use Illuminate\Support\Str;
-use Spatie\LaravelMarkdown\MarkdownRenderer;
 
 it('uses title case for titles', function () {
     $product = Product::factory()->create([
@@ -33,5 +32,5 @@ it('generates html from the body', function () {
 
     $product->save();
 
-    expect($product->html)->toEqual(app(MarkdownRenderer::class)->toHTML($product->body));
+    expect($product->html)->toEqual(Str::markdown($product->body));
 });
